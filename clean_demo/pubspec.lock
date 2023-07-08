@@ -28,7 +28,7 @@ packages:
       path: "../basic_module"
       relative: true
     source: path
-    version: "1.0.0+1"
+    version: "0.0.1"
   bloc:
     dependency: transitive
     description:
@@ -226,6 +226,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.1"
+  interface_repository:
+    dependency: "direct main"
+    description:
+      path: "../interface_repository"
+      relative: true
+    source: path
+    version: "0.0.1"
   internet_connection_checker:
     dependency: transitive
     description:
