@@ -1,3 +1,4 @@
+import 'package:b_module/features/presentation/pages/splash_screen/my_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:b_module/core/config/navigation.dart';
@@ -27,7 +28,8 @@ class _FeedScreenState extends State<FeedScreen> {
     return Scaffold(
       appBar: _getAppBar(),
       floatingActionButton: _getFloatingActionButton(),
-      body: _getBody(),
+      body: BlocProvider<FeedBloc>(
+          create: (context) => sl<FeedBloc>(), child: _getBody()),
     );
   }
 

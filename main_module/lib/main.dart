@@ -5,11 +5,11 @@ void main() {}
 //a 模块入口
 @pragma('vm:entry-point')
 void greetingMain() {
-  // startSetting(greetingPageConfig);
+  a_module_main();
 }
 
 //b 模块入口
 @pragma('vm:entry-point')
 void feedbackMain() {
-  // startSetting(feedBackPageConfig);
+  b_module_main();
 }

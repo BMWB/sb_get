@@ -1,5 +1,8 @@
+import 'package:b_module/features/presentation/authentication/authentication_event.dart';
+import 'package:b_module/features/presentation/pages/feed/feed_screen.dart';
 import 'package:b_module/features/presentation/pages/new_post/add_new_feed_post_screen.dart';
 import 'package:b_module/features/presentation/pages/splash_screen/my_splash_screen.dart';
+import 'package:b_module/features/presentation/pages/splash_screen/splash_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
@@ -21,6 +24,16 @@ import 'package:b_module/features/presentation/authentication/authentication_blo
 import 'package:b_module/features/presentation/pages/feed/feed_bloc.dart';
 import 'package:b_module/features/presentation/pages/new_post/add_new_feed_post_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:b_module/core/config/localization.dart';
+import 'package:b_module/core/utils/constants.dart';
+import 'package:b_module/core/utils/routes.dart';
+
+import 'injection_container.dart' as di;
 
 Future<void> b_model_init() async {
   final sl = GetIt.instance;
@@ -29,51 +42,106 @@ Future<void> b_model_init() async {
   sl.registerFactory<B_Module_Page_Service>(() => AddNewFeedPostScreen());
   sl.registerFactory<AModuleSplashScreen>(() => MyModuleSplashScreen());
 
-  // Bloc
-  sl.registerFactory(() => AuthenticationBloc(
-        localDataSource: sl(),
-      ));
+  // // Bloc
+  // sl.registerFactory(() => AuthenticationBloc(
+  //       localDataSource: sl(),
+  //     ));
 
-  sl.registerFactory(() => FeedBloc(
-        getFeedsUseCase: sl(),
-        getFeedStreamUseCase: sl(),
-      ));
+  // sl.registerFactory(() => FeedBloc(
+  //       getFeedsUseCase: sl(),
+  //       getFeedStreamUseCase: sl(),
+  //     ));
 
-  sl.registerFactory(() => AddNewFeedPostBloc(
-        addNewFeedPostUseCase: sl(),
-      ));
+  // sl.registerFactory(() => AddNewFeedPostBloc(
+  //       addNewFeedPostUseCase: sl(),
+  //     ));
 
-  // usecases
-  sl.registerLazySingleton(() => GetFeedsUseCase(sl()));
-  sl.registerLazySingleton(() => GetFeedStreamUseCase(sl()));
-  sl.registerLazySingleton(() => AddNewFeedPostUseCase(sl()));
+  // // usecases
+  // sl.registerLazySingleton(() => GetFeedsUseCase(sl()));
+  // sl.registerLazySingleton(() => GetFeedStreamUseCase(sl()));
+  // sl.registerLazySingleton(() => AddNewFeedPostUseCase(sl()));
 
-  // repository
-  sl.registerLazySingleton<Repository>(() => RepositoryImpl(
-      localDataSource: sl(), remoteDataSource: sl(), networkInfo: sl()));
+  // // repository
+  // sl.registerLazySingleton<Repository>(() => RepositoryImpl(
+  //     localDataSource: sl(), remoteDataSource: sl(), networkInfo: sl()));
 
-  // Data Sources
-  sl.registerLazySingleton<RemoteDataSource>(
-      () => RemoteDataSourceImpl(client: sl()));
-  // No access to DB provider, job of LocalDataSource to choose which source
-  sl.registerLazySingleton<LocalDataSource>(
-      () => LocalDataSourceImpl(mySharedPref: sl(), dbProvider: sl()));
+  // // Data Sources
+  // sl.registerLazySingleton<RemoteDataSource>(
+  //     () => RemoteDataSourceImpl(client: sl()));
+  // // No access to DB provider, job of LocalDataSource to choose which source
+  // sl.registerLazySingleton<LocalDataSource>(
+  //     () => LocalDataSourceImpl(mySharedPref: sl(), dbProvider: sl()));
 
-  // Core
-  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
-  sl.registerLazySingleton<MySharedPref>(() => MySharedPref(sl()));
+  // // Core
+  // sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
+  // sl.registerLazySingleton<MySharedPref>(() => MySharedPref(sl()));
 
-  // initializing dio
-  final dio = Dio();
-  if (kDebugMode)
-    dio.interceptors.add(LogInterceptor(request: true, responseBody: true));
+  // // initializing dio
+  // final dio = Dio();
+  // if (kDebugMode)
+  //   dio.interceptors.add(LogInterceptor(request: true, responseBody: true));
 
-  // External
-  final dbProvider = DBProvider();
+  // // External
+  // final dbProvider = DBProvider();
 
-  final sharedPreferences = await SharedPreferences.getInstance();
-  sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
-  sl.registerLazySingleton<DBProvider>(() => dbProvider);
-  sl.registerLazySingleton(() => RestClient(dio, sl()));
-  sl.registerLazySingleton(() => InternetConnectionChecker());
+  // final sharedPreferences = await SharedPreferences.getInstance();
+  // sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
+  // sl.registerLazySingleton<DBProvider>(() => dbProvider);
+  // sl.registerLazySingleton(() => RestClient(dio, sl()));
+  // sl.registerLazySingleton(() => InternetConnectionChecker());
+}
+
+Future<void> b_module_main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  // await Hive.openBox<FeedModel>(Constants.FEED_DB);
+  await SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp],
+  ); // To turn off landscape mode
+
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarIconBrightness: Brightness.dark,
+    // this will change the brightness of the icons
+    statusBarColor: Color(0xFFffcb05),
+    // or any color you want
+    systemNavigationBarIconBrightness:
+        Brightness.dark, //navigation bar icons' color
+  ));
+
+  await di.b_model_init();
+  runApp(MyAppp());
+}
+
+class MyAppp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<AuthenticationBloc>(
+      create: (context) => sl.get<AuthenticationBloc>()..add(AppStarted()),
+      child: MaterialApp(
+        title: Constants.APP_NAME,
+        locale: Locale('en'),
+        localizationsDelegates: [const MyLocalizationsDelegate()],
+        supportedLocales: [Locale('en')],
+        debugShowCheckedModeBanner: false,
+        initialRoute: AppRoutes.splash_screen,
+        routes: _registerRoutes(),
+      ),
+    );
+  }
+
+  Map<String, WidgetBuilder> _registerRoutes() {
+    return <String, WidgetBuilder>{
+      AppRoutes.splash_screen: (context) => SplashScreen(),
+      AppRoutes.feed_screen: (context) => BlocProvider<FeedBloc>(
+            create: (context) => sl<FeedBloc>(),
+            child: FeedScreen(),
+          ),
+      AppRoutes.add_new_post_screen: (context) =>
+          BlocProvider<AddNewFeedPostBloc>(
+            create: (context) => sl<AddNewFeedPostBloc>(),
+            child: AddNewFeedPostScreen(),
+          ),
+    };
+  }
 }

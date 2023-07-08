@@ -1,18 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:main_module/ext.dart' as model;
 import 'package:get_it/get_it.dart';
 import 'package:get/get.dart';
 import 'package:interface_repository/ext.dart';
+import 'package:main_module/ext.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 final sl = GetIt.instance;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Hive.initFlutter();
-  // await Hive.openBox<FeedModel>(Constants.FEED_DB);
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   ); // To turn off landscape mode
@@ -38,13 +37,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      // defaultTransition: Transition.noTransition,
-      transitionDuration: const Duration(seconds: 0),
-      // fallbackLocale: const Locale('en'),
-      debugShowCheckedModeBanner: false,
-      title: 'Demo',
-      home: sl.get<AModuleSplashScreen>(),
-    );
+    return BlocProvider<AuthenticationBloc>(
+        create: (context) => sl.get<AuthenticationBloc>()..add(AppStarted()),
+        child: GetMaterialApp(
+          // defaultTransition: Transition.noTransition,
+          transitionDuration: const Duration(seconds: 0),
+          // fallbackLocale: const Locale('en'),
+          debugShowCheckedModeBanner: false,
+          title: 'Demo',
+          home: sl.get<AModuleSplashScreen>(),
+        ));
   }
 }

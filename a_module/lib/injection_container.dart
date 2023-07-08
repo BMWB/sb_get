@@ -1,3 +1,4 @@
+import 'package:a_module/features/data/model/feed_model.dart';
 import 'package:a_module/features/presentation/pages/feed/feed_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -21,8 +22,25 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:interface_repository/page_repository/a_module_page.dart';
 
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:a_module/core/config/localization.dart';
+import 'package:a_module/core/utils/constants.dart';
+import 'package:a_module/core/utils/routes.dart';
+
+import 'package:a_module/features/presentation/authentication/authentication_event.dart';
+import 'package:a_module/features/presentation/pages/new_post/add_new_feed_post_screen.dart';
+import 'package:a_module/features/presentation/pages/splash_screen/splash_screen.dart';
+
+import 'injection_container.dart' as di;
+
 Future<void> a_model_init() async {
   final sl = GetIt.instance;
+
+  await Hive.initFlutter();
+  await Hive.openBox<FeedModel>(Constants.FEED_DB);
 
   //page
   sl.registerFactory<A_Module_Page_Service>(() => FeedScreen());
@@ -74,4 +92,61 @@ Future<void> a_model_init() async {
   sl.registerLazySingleton<DBProvider>(() => dbProvider);
   sl.registerLazySingleton(() => RestClient(dio, sl()));
   sl.registerLazySingleton(() => InternetConnectionChecker());
+}
+
+final sl = GetIt.instance;
+
+Future<void> a_module_main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  // await Hive.openBox<FeedModel>(Constants.FEED_DB);
+  await SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp],
+  ); // To turn off landscape mode
+
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarIconBrightness: Brightness.dark,
+    // this will change the brightness of the icons
+    statusBarColor: Color(0xFFffcb05),
+    // or any color you want
+    systemNavigationBarIconBrightness:
+        Brightness.dark, //navigation bar icons' color
+  ));
+
+  await di.a_model_init();
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<AuthenticationBloc>(
+      create: (context) => sl.get<AuthenticationBloc>()..add(AppStarted()),
+      child: MaterialApp(
+        title: Constants.APP_NAME,
+        locale: Locale('en'),
+        localizationsDelegates: [const MyLocalizationsDelegate()],
+        supportedLocales: [Locale('en')],
+        debugShowCheckedModeBanner: false,
+        initialRoute: AppRoutes.splash_screen,
+        routes: _registerRoutes(),
+      ),
+    );
+  }
+
+  Map<String, WidgetBuilder> _registerRoutes() {
+    return <String, WidgetBuilder>{
+      AppRoutes.splash_screen: (context) => SplashScreen(),
+      AppRoutes.feed_screen: (context) => BlocProvider<FeedBloc>(
+            create: (context) => sl<FeedBloc>(),
+            child: FeedScreen(),
+          ),
+      AppRoutes.add_new_post_screen: (context) =>
+          BlocProvider<AddNewFeedPostBloc>(
+            create: (context) => sl<AddNewFeedPostBloc>(),
+            child: AddNewFeedPostScreen(),
+          ),
+    };
+  }
 }

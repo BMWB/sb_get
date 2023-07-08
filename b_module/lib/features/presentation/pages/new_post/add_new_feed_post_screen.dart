@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
-import 'package:image_picker/image_picker.dart';
+// import 'package:image_picker/image_picker.dart';
 import 'package:b_module/core/config/navigation.dart';
 import 'package:b_module/features/presentation/pages/new_post/add_new_feed_post_bloc.dart';
 
@@ -33,7 +33,7 @@ class _AddNewFeedPostScreenState extends B_Module_Page_State {
   final TextEditingController _discriptionController = TextEditingController();
   final _formState = GlobalKey<FormState>();
 
-  final ImagePicker _picker = ImagePicker();
+  // final ImagePicker _picker = ImagePicker();
   String _filePath = "";
 
   @override
@@ -162,14 +162,14 @@ class _AddNewFeedPostScreenState extends B_Module_Page_State {
   Widget _getMediaButton() {
     return ElevatedButton(
         onPressed: () async {
-          final XFile? _xFile =
-              await _picker.pickImage(source: ImageSource.gallery);
-          if (_xFile != null) {
-            setState(() {
-              _filePath = _xFile.path;
-            });
-            print("Got file path = ${_xFile.path}");
-          }
+          // final XFile? _xFile =
+          //     await _picker.pickImage(source: ImageSource.gallery);
+          // if (_xFile != null) {
+          //   setState(() {
+          //     _filePath = _xFile.path;
+          //   });
+          //   print("Got file path = ${_xFile.path}");
+          // }
         },
         child: const Text("Get Media"));
   }

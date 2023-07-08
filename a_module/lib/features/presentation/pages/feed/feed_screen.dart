@@ -1,3 +1,4 @@
+import 'package:a_module/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:a_module/core/config/navigation.dart';
@@ -41,7 +42,8 @@ class _FeedScreenState extends A_Module_Page_State {
     return Scaffold(
       appBar: _getAppBar(),
       floatingActionButton: _getFloatingActionButton(),
-      body: _getBody(),
+      body: BlocProvider<FeedBloc>(
+          create: (context) => sl<FeedBloc>(), child: _getBody()),
     );
   }
 
