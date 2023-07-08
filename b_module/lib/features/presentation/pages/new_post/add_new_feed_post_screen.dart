@@ -7,14 +7,28 @@ import 'package:image_picker/image_picker.dart';
 import 'package:b_module/core/config/navigation.dart';
 import 'package:b_module/features/presentation/pages/new_post/add_new_feed_post_bloc.dart';
 
-class AddNewFeedPostScreen extends StatefulWidget {
-  const AddNewFeedPostScreen({Key? key}) : super(key: key);
+import 'package:interface_repository/page_repository/b_module_page.dart';
+
+class AddNewFeedPostScreen extends B_Module_Page_Service {
+  AddNewFeedPostScreen({
+    String? title,
+    VoidCallback? onButtonPressed,
+    UserModel? userModel,
+    Map<String, dynamic>? data,
+    List<String>? items,
+  }) : super(
+          title: title,
+          onButtonPressed: onButtonPressed,
+          userModel: userModel,
+          data: data,
+          items: items,
+        );
 
   @override
-  State<AddNewFeedPostScreen> createState() => _AddNewFeedPostScreenState();
+  State createState() => _AddNewFeedPostScreenState();
 }
 
-class _AddNewFeedPostScreenState extends State<AddNewFeedPostScreen> {
+class _AddNewFeedPostScreenState extends B_Module_Page_State {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _discriptionController = TextEditingController();
   final _formState = GlobalKey<FormState>();

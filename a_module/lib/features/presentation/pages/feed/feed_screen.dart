@@ -8,14 +8,28 @@ import 'package:a_module/features/presentation/common_widgets/feed_child_widget.
 
 import 'feed_bloc.dart';
 
-class FeedScreen extends StatefulWidget {
-  const FeedScreen({Key? key}) : super(key: key);
+import 'package:interface_repository/page_repository/a_module_page.dart';
+
+class FeedScreen extends A_Module_Page_Service {
+  FeedScreen({
+    String? title,
+    VoidCallback? onButtonPressed,
+    UserModel? userModel,
+    Map<String, dynamic>? data,
+    List<String>? items,
+  }) : super(
+          title: title,
+          onButtonPressed: onButtonPressed,
+          userModel: userModel,
+          data: data,
+          items: items,
+        );
 
   @override
-  State<FeedScreen> createState() => _FeedScreenState();
+  State createState() => _FeedScreenState();
 }
 
-class _FeedScreenState extends State<FeedScreen> {
+class _FeedScreenState extends A_Module_Page_State {
   final TextEditingController _searchController = TextEditingController();
 
   String _searchString = "";

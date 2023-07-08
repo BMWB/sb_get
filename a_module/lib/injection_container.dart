@@ -1,3 +1,4 @@
+import 'package:a_module/features/presentation/pages/feed/feed_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
@@ -18,8 +19,13 @@ import 'package:a_module/features/presentation/pages/feed/feed_bloc.dart';
 import 'package:a_module/features/presentation/pages/new_post/add_new_feed_post_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:interface_repository/page_repository/a_module_page.dart';
+
 Future<void> a_model_init() async {
   final sl = GetIt.instance;
+
+  //page
+  sl.registerFactory<A_Module_Page_Service>(() => FeedScreen());
 
   // Bloc
   sl.registerFactory(() => AuthenticationBloc(
