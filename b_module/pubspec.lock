@@ -57,13 +57,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.2"
-  cryptography:
-    dependency: transitive
-    description:
-      name: cryptography
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.5.0"
   cupertino_icons:
     dependency: transitive
     description:
@@ -152,17 +145,17 @@ packages:
   hive:
     dependency: transitive
     description:
-      path: "../hive"
-      relative: true
-    source: path
-    version: "3.0.0-dev"
+      name: hive
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.3"
   hive_flutter:
     dependency: transitive
     description:
-      path: "../hive_flutter"
-      relative: true
-    source: path
-    version: "2.0.0-dev"
+      name: hive_flutter
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
   http_parser:
     dependency: transitive
     description:

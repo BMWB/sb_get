@@ -33,12 +33,9 @@ dependencies:
   shared_preferences: ^2.0.13
   # Annotations
   json_annotation: ^4.4.0
-  hive:
-    path: ../hive
+  hive: any
 
-  hive_flutter:
-    path: ../hive_flutter
-
+  hive_flutter: any
   # image_picker: ^0.8.4+11
   get: ^4.6.5
 
@@ -53,8 +50,7 @@ dev_dependencies:
   build_runner: any
   # For any serialization
   json_serializable: ^6.1.5
-  # hive_generator:
-  #   path: ../hive_generator
+  hive_generator: any
   change_app_package_name: ^1.0.0  
 
 # For information on the generic Dart part of this file, see the
