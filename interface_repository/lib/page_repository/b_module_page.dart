@@ -1,16 +1,16 @@
 import 'package:flutter/cupertino.dart';
 
-class UserModel {
+class BUserModel {
   final String? name;
   final int? age;
 
-  UserModel({this.name, this.age});
+  BUserModel({this.name, this.age});
 }
 
 abstract class B_Module_Page_Service extends StatefulWidget {
   final String? title;
   final VoidCallback? onButtonPressed;
-  final UserModel? userModel;
+  final BUserModel? userModel;
   final Map<String, dynamic>? data;
   final List<String>? items;
 
@@ -22,10 +22,10 @@ abstract class B_Module_Page_Service extends StatefulWidget {
       this.items});
 
   @override
-  State<StatefulWidget> createState() => MyPageState();
+  State<StatefulWidget> createState() => B_Module_Page_State();
 }
 
-class MyPageState extends State<B_Module_Page_Service> {
+class B_Module_Page_State extends State<B_Module_Page_Service> {
   @override
   Widget build(BuildContext context) {
     return Container(

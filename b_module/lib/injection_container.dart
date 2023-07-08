@@ -1,6 +1,10 @@
+import 'package:b_module/features/presentation/pages/new_post/add_new_feed_post_screen.dart';
+import 'package:b_module/features/presentation/pages/splash_screen/my_splash_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
+import 'package:interface_repository/page_repository/a_module_splash.dart';
+import 'package:interface_repository/page_repository/b_module_page.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:b_module/core/config/db_provider.dart';
 import 'package:b_module/core/config/my_shared_pref.dart';
@@ -18,9 +22,13 @@ import 'package:b_module/features/presentation/pages/feed/feed_bloc.dart';
 import 'package:b_module/features/presentation/pages/new_post/add_new_feed_post_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final sl = GetIt.instance;
+Future<void> b_model_init() async {
+  final sl = GetIt.instance;
 
-Future<void> init() async {
+  //page
+  sl.registerFactory<B_Module_Page_Service>(() => AddNewFeedPostScreen());
+  sl.registerFactory<AModuleSplashScreen>(() => MyModuleSplashScreen());
+
   // Bloc
   sl.registerFactory(() => AuthenticationBloc(
         localDataSource: sl(),

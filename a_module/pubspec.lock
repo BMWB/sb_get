@@ -14,7 +14,7 @@ packages:
       path: "../basic_module"
       relative: true
     source: path
-    version: "1.0.0+1"
+    version: "0.0.1"
   bloc:
     dependency: transitive
     description:

@@ -13,7 +13,7 @@ class AddNewFeedPostScreen extends B_Module_Page_Service {
   AddNewFeedPostScreen({
     String? title,
     VoidCallback? onButtonPressed,
-    UserModel? userModel,
+    BUserModel? userModel,
     Map<String, dynamic>? data,
     List<String>? items,
   }) : super(
