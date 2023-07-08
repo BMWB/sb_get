@@ -18,9 +18,7 @@ import 'package:a_module/features/presentation/pages/feed/feed_bloc.dart';
 import 'package:a_module/features/presentation/pages/new_post/add_new_feed_post_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final sl = GetIt.instance;
-
-Future<void> init() async {
+Future<void> a_model_init() async {
   final sl = GetIt.instance;
 
   // Bloc

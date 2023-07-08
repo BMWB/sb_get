@@ -25,7 +25,10 @@ dependencies:
     sdk: flutter
 
   basic_module:
-     path: ../basic_module
+    path: ../basic_module
+
+  interface_repository:
+    path: ../interface_repository
 
 dev_dependencies:
   flutter_test:

@@ -36,7 +36,7 @@ Future<void> main() async {
         Brightness.dark, //navigation bar icons' color
   ));
 
-  await di.init();
+  await di.a_model_init();
   runApp(MyApp());
 }
 
