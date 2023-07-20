@@ -1,3 +1,5 @@
+## Modular+DDD+Flutter multiple entry points
+
 ####  1、整洁架构思想
  
 整洁架构(Clean Architecture)是由Bob大叔在2012年提出的一个架构模型，顾名思义，是为了使架构更简洁。
