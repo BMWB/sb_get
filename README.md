@@ -1,4 +1,4 @@
-## Modular+DDD+Flutter multiple entry points
+## Modular+Clean Architecture+Flutter multiple entry points
 
 ####  1、整洁架构思想
  
